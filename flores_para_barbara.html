@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Feliz 21 de septiembre Mour</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to top, #87ceeb, #b3e5fc);
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    /* Gatito */
+    .gatito {
+  position: absolute;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  z-index: 3;
+}
+
+
+    /* Colina */
+    .colina {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 180px;
+      background: radial-gradient(circle at top, #6dbf47 0%, #3d8b2e 100%);
+      border-top-left-radius: 50% 80px;
+      border-top-right-radius: 50% 80px;
+      text-align: center;
+      color: white;
+      font-size: 50px;
+      font-weight: bold;
+      padding-top: 80px;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    /* Lluvia de palabras */
+    .lluvia {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .palabra {
+      position: absolute;
+      top: -50px;
+      font-size: 20px;
+      font-weight: bold;
+      color: yellow;
+      animation: caer 6s linear infinite;
+    }
+
+    @keyframes caer {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Fuegos artificiales */
+    .explosion {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: yellow;
+      border-radius: 50%;
+      animation: explotar 1s ease-out forwards;
+      z-index: 5;
+    }
+
+    @keyframes explotar {
+      from { transform: translate(0, 0) scale(1); opacity: 1; }
+      to { transform: translate(var(--dx), var(--dy)) scale(0.5); opacity: 0; }
+    }
+
+    /* Texto que aparece al hacer clic */
+    .mensaje {
+      position: absolute;
+      font-size: 28px;
+      font-weight: bold;
+      color: gold;
+      text-shadow: 2px 2px 6px black;
+      opacity: 0;
+      animation: aparecer 2s ease-out forwards;
+      pointer-events: none;
+      z-index: 6;
+    }
+     /* Flores */
+    .flor {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: yellow;
+      border-radius: 50%;
+      box-shadow: 0 0 0 10px orange inset;
+      transform: scale(0);
+      animation: crecer 3s ease-in-out forwards, balanceo 2s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes crecer {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    @keyframes balanceo {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(3deg) scale(1.05); }
+      50% { transform: rotate(0deg) scale(1); }
+      75% { transform: rotate(-3deg) scale(0.95); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    /* Tallos */
+    .tallo {
+      position: absolute;
+      width: 6px;
+      height: 30px;
+      background: green;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -30px;
+    }
+
+
+    @keyframes aparecer {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Imagen del gatito -->
+  <img src="gato_flores.png" alt="Gatito con flores" class="gatito">
+
+  <!-- Texto en la colina -->
+  <div class="colina" id="colina">Feliz 21 de septiembre Mour</div>
+
+  <!-- Lluvia de palabras -->
+  <div class="lluvia">
+    <span class="palabra" style="left:5%; animation-delay:0s;">I LOVE YOU</span>
+    <span class="palabra" style="left:15%; animation-delay:1s;">I LOVE YOU</span>
+    <span class="palabra" style="left:25%; animation-delay:2s;">I LOVE YOU</span>
+    <span class="palabra" style="left:35%; animation-delay:3s;">I LOVE YOU</span>
+    <span class="palabra" style="left:45%; animation-delay:4s;">I LOVE YOU</span>
+    <span class="palabra" style="left:55%; animation-delay:5s;">I LOVE YOU</span>
+    <span class="palabra" style="left:65%; animation-delay:2.5s;">I LOVE YOU</span>
+    <span class="palabra" style="left:75%; animation-delay:3.5s;">I LOVE YOU</span>
+    <span class="palabra" style="left:85%; animation-delay:4.5s;">I LOVE YOU</span>
+    <span class="palabra" style="left:95%; animation-delay:1.5s;">I LOVE YOU</span>
+  </div>
+
+  <script>
+    // Fuegos artificiales + palabra al hacer clic
+    document.addEventListener("click", (e) => {
+      const numParticulas = 15;
+
+      for (let i = 0; i < numParticulas; i++) {
+        const particula = document.createElement("div");
+        particula.classList.add("explosion");
+
+        particula.style.left = e.clientX + "px";
+        particula.style.top = e.clientY + "px";
+
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = Math.random() * 80 + 40;
+        const dx = Math.cos(angle) * radius + "px";
+        const dy = Math.sin(angle) * radius + "px";
+        particula.style.setProperty("--dx", dx);
+        particula.style.setProperty("--dy", dy);
+
+        document.body.appendChild(particula);
+
+        setTimeout(() => particula.remove(), 1000);
+      }
+
+      // Crear mensaje "Ximenita"
+      const mensaje = document.createElement("div");
+      mensaje.classList.add("mensaje");
+      mensaje.innerText = "Ximenita";
+      mensaje.style.left = (e.clientX - 40) + "px";
+      mensaje.style.top = (e.clientY - 20) + "px";
+
+      document.body.appendChild(mensaje);
+
+      setTimeout(() => mensaje.remove(), 2000);
+    });
+  </script>
+  <script>
+    const colina = document.getElementById("colina");
+
+    function crearFlor() {
+      const flor = document.createElement("div");
+      flor.classList.add("flor");
+
+      // Posición aleatoria en la colina
+      const x = Math.random() * (window.innerWidth - 60); 
+      const y = Math.random() * 100 + 20; 
+
+      flor.style.left = x + "px";
+      flor.style.bottom = y + "px";
+
+      // Crear tallo
+      const tallo = document.createElement("div");
+      tallo.classList.add("tallo");
+      flor.appendChild(tallo);
+
+      colina.appendChild(flor);
+
+      // Remover flor después de animación
+      setTimeout(() => {
+        flor.remove();
+      }, 3000);
+    }
+
+    // Crear flores cada 0.5s
+    setInterval(crearFlor, 500);
+  </script>
+</body>
+</html>
